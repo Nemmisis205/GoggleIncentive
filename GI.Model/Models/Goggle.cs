@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GoggleIncentive.Classes
+namespace GI.Model.Models
 {
-    internal class Goggle
+    public class Goggle
     {
+        int Id { get; set; }
         public string Name { get; set; }
         public int QuotedCycle { get; set; }
         public int PerBox { get; set; } = 72;
