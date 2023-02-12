@@ -8,9 +8,21 @@ namespace GI.Model.Models
 {
     public class Goggle
     {
-        int Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public int QuotedCycle { get; set; }
         public int PerBox { get; set; } = 72;
+
+        public Goggle()
+        {
+
+        }
+
+        public Goggle(string name, int quote, int perBox)
+        { 
+            Name = name;
+            QuotedCycle = quote;
+            PerBox = perBox;
+        }
     }
 }

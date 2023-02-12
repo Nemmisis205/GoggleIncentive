@@ -21,7 +21,7 @@ namespace GI.Repository.Repository
         {
             using (var cnn = _connectionFactory.GetConnection())
             {
-                var sql = @"INSERT INTO Operators(Name) VALUES(@Name)";
+                var sql = "INSERT INTO Operators(Name) VALUES (@Name)";
                 cnn.Open();
                 int result = cnn.Execute(sql, entity);
                 return result;
@@ -41,7 +41,7 @@ namespace GI.Repository.Repository
 
         public List<Operator> GetAll()
         {
-            var sql = @"SELECT * From Operator";
+            var sql = @"SELECT * From Operators";
             using (var cnn = _connectionFactory.GetConnection())
             {
                 cnn.Open();
