@@ -1,5 +1,6 @@
 ﻿using GI.Repository.Interfaces;
 using GI.Repository.Repository;
+using GI.Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,0 +1,64 @@
+﻿<Window x:Class="GI.App.EditTimeslipDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GI.App"
+        mc:Ignorable="d"
+        Title="EditTimeslipDialogWindow" Height="450" Width="400
+        ">
+    <ScrollViewer>
+        <Grid VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="106"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="1">
+                <Label Content="Operator" HorizontalAlignment="Right"/>
+                <Label Content="Goggle" HorizontalAlignment="Right"/>
+                <Label Content="Date" HorizontalAlignment="Right"/>
+                <Label Content="Efficiency" HorizontalAlignment="Right"/>
+                <Label Content="Start Time" HorizontalAlignment="Right"/>
+                <Label Content="End Time" HorizontalAlignment="Right"/>
+                <Label Content="Start Counter" HorizontalAlignment="Right"/>
+                <Label Content="End Counter" HorizontalAlignment="Right"/>
+                <Label Content="Total Cycles" HorizontalAlignment="Right"/>
+                <Label Content="Start Box Count" HorizontalAlignment="Right"/>
+                <Label Content="Start Piece Count" HorizontalAlignment="Right"/>
+                <Label Content="End Box Count" HorizontalAlignment="Right"/>
+                <Label Content="End Piece Count" HorizontalAlignment="Right"/>
+                <Label Content="Cycles Per Hour" HorizontalAlignment="Right"/>
+                <Label Content="Scrap" HorizontalAlignment="Right"/>
+                <Label Content="Scrap Percent" HorizontalAlignment="Right"/>
+                <Label Content="Good Parts" HorizontalAlignment="Right"/>
+                <Label Content="Hours Ran" HorizontalAlignment="Right"/>
+                <Label Content="Incentive Earned" HorizontalAlignment="Right"/>
+                <Label Content="Override" HorizontalAlignment="Right"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <TextBox Height="26" Text="{Binding OperatorName}"/>
+                <TextBox Height="26" Text="{Binding GoggleName}"/>
+                <TextBox Height="26" Text="{Binding DateString}"/>
+                <TextBox Height="26" Text="{Binding Efficiency}"/>
+                <TextBox Height="26" Text="{Binding StartTimeString}"/>
+                <TextBox Height="26" Text="{Binding EndTimeString}"/>
+                <TextBox Height="26" Text="{Binding StartCounter}"/>
+                <TextBox Height="26" Text="{Binding EndCounter}"/>
+                <TextBox Height="26" Text="{Binding CycleCount}"/>
+                <TextBox Height="26" Text="{Binding StartBoxCount}"/>
+                <TextBox Height="26" Text="{Binding StartPieceCount}"/>
+                <TextBox Height="26" Text="{Binding EndBoxCount}"/>
+                <TextBox Height="26" Text="{Binding EndPieceCount}"/>
+                <TextBox Height="26" Text="{Binding CyclesPerHour}"/>
+                <TextBox Height="26" Text="{Binding Scrap}"/>
+                <TextBox Height="26" Text="{Binding ScrapPercent}"/>
+                <TextBox Height="26" Text="{Binding GoodParts}"/>
+                <TextBox Height="26" Text="{Binding HoursRanString}"/>
+                <TextBox Height="26" Text="{Binding IncentiveString}"/>
+                <ComboBox Height="26"/>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>

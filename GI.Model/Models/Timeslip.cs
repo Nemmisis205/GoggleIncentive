@@ -12,8 +12,8 @@ namespace GI.Model.Models
         public int Id { get; set; }
         public int OperatorId { get; set; }
         public int GoggleId { get; set; }
-        public int StartTime { get; set; }
-        public int EndTime { get; set; }
+        public long StartTime { get; set; }
+        public long EndTime { get; set; }
         public int StartCounter { get; set; }
         public int EndCounter { get; set; }
         public int StartBoxCount { get; set; }
@@ -25,18 +25,25 @@ namespace GI.Model.Models
         public double ScrapPercent { get; set; }
         public int GoodParts { get; set; }
         public int CycleCount { get; set; }
-        public int HoursRan { get; set; }
+        public long HoursRan { get; set; }
         public double Efficiency { get; set; }
         public int IncentiveAchieved { get; set; }
-        public int Override { get; set; }
-        
+        public int? Override { get; set; } = null;
+        public string OperatorName { get; set; }
+        public string GoggleName { get; set; }
+        public string DateString { get; set; }
+        public string IncentiveString { get; set; }
+        public string StartTimeString { get; set; }
+        public string EndTimeString { get; set; }
+        public string HoursRanString { get; set; }
+
         public Timeslip()
         {
 
         }
 
-        public Timeslip(int id, int operatorId, int goggleId, int sTime, int eTime, int sCounter, int eCounter, int sBox, int sPiece, int eBox, int ePiece, int cycleCount,
-                        int goodParts, double cyclePerHour,  int scrap, double scrapPercent, int hoursRan, double efficiency, int incentiveAchieved, int overrider)
+        public Timeslip(int id, int operatorId, int goggleId, long sTime, long eTime, int sCounter, int eCounter, int sBox, int sPiece, int eBox, int ePiece, int cycleCount,
+                        int goodParts, double cyclePerHour,  int scrap, double scrapPercent, long hoursRan, double efficiency, int incentiveAchieved, int overrider)
         {
             Id = id;
             OperatorId = operatorId;

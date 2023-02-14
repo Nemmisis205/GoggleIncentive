@@ -53,7 +53,7 @@ namespace GI.Repository.Repository
 
         public Goggle GetById(int id)
         {
-            var sql = @"SELECT * FROM Goggle WHERE Id = @Id";
+            var sql = @"SELECT * FROM Goggles WHERE Id = @Id";
             using(var cnn = _connectionFactory.GetConnection())
             {
                 cnn.Open();

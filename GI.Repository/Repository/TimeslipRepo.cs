@@ -21,10 +21,10 @@ namespace GI.Repository.Repository
         {
             var sql = @"INSERT INTO Timeslips
                         (OperatorId, GoggleId, StartTime, EndTime, StartCounter, EndCounter, StartBoxCount, EndBoxCount, StartPieceCount, EndPieceCount,
-                        CyclesPerHour, Scrap, ScrapPercent, PieceCount, CycleCount, HoursRan, Efficiency, IncentiveAchieved, Override) 
+                        CyclesPerHour, Scrap, ScrapPercent, GoodParts, CycleCount, HoursRan, Efficiency, IncentiveAchieved, Override) 
                         VALUES
                         (@OperatorId, @GoggleId, @StartTime, @EndTime, @StartCounter, @EndCounter, @StartBoxCount, @EndBoxCount, @StartPieceCount, @EndPieceCount,
-                        @CyclesPerHour, @Scrap, @ScrapPercent, @PieceCount, @CycleCount, @HoursRan, @Efficiency, @IncentiveAchieved, @Override)";
+                        @CyclesPerHour, @Scrap, @ScrapPercent, @GoodParts, @CycleCount, @HoursRan, @Efficiency, @IncentiveAchieved, @Override)";
             using (var cnn = _connectionFactory.GetConnection())
             {
                 cnn.Open();
