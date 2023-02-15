@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GI.App"
         mc:Ignorable="d"
-        Title="EditTimeslipDialogWindow" Height="450" Width="400
-        ">
+        Title="EditTimeslipDialogWindow" Height="450" Width="400" Closed="Window_Closed">
     <ScrollViewer>
         <Grid VerticalAlignment="Bottom">
             <Grid.ColumnDefinitions>
@@ -38,26 +37,36 @@
                 <Label Content="Override" HorizontalAlignment="Right"/>
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <TextBox Height="26" Text="{Binding OperatorName}"/>
-                <TextBox Height="26" Text="{Binding GoggleName}"/>
-                <TextBox Height="26" Text="{Binding DateString}"/>
-                <TextBox Height="26" Text="{Binding Efficiency}"/>
-                <TextBox Height="26" Text="{Binding StartTimeString}"/>
-                <TextBox Height="26" Text="{Binding EndTimeString}"/>
-                <TextBox Height="26" Text="{Binding StartCounter}"/>
-                <TextBox Height="26" Text="{Binding EndCounter}"/>
-                <TextBox Height="26" Text="{Binding CycleCount}"/>
-                <TextBox Height="26" Text="{Binding StartBoxCount}"/>
-                <TextBox Height="26" Text="{Binding StartPieceCount}"/>
-                <TextBox Height="26" Text="{Binding EndBoxCount}"/>
-                <TextBox Height="26" Text="{Binding EndPieceCount}"/>
-                <TextBox Height="26" Text="{Binding CyclesPerHour}"/>
-                <TextBox Height="26" Text="{Binding Scrap}"/>
-                <TextBox Height="26" Text="{Binding ScrapPercent}"/>
-                <TextBox Height="26" Text="{Binding GoodParts}"/>
-                <TextBox Height="26" Text="{Binding HoursRanString}"/>
-                <TextBox Height="26" Text="{Binding IncentiveString}"/>
-                <ComboBox Height="26"/>
+                <ComboBox x:Name="EditTimeslipOperatorComboBox" DisplayMemberPath="Name" Height="26" Text="{Binding OperatorName}" IsEnabled="False"/>
+                <ComboBox x:Name="EditTimeslipGoggleComboBox" DisplayMemberPath="Name" Height="26" Text="{Binding GoggleName}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipDateTextBox" Height="26" Text="{Binding DateString}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipEfficiencyTextBox" Height="26" Text="{Binding Efficiency}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipStartTimeTextBox" Height="26" Text="{Binding StartTimeString}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipEndTimeTextBox" Height="26" Text="{Binding EndTimeString}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipStartCounterTextBox" Height="26" Text="{Binding StartCounter}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipEndCounterTextBox" Height="26" Text="{Binding EndCounter}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipTotalCyclesTextBox" Height="26" Text="{Binding CycleCount}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipStartBoxCountTextBox" Height="26" Text="{Binding StartBoxCount}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipStartPieceCountTextBox" Height="26" Text="{Binding StartPieceCount}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipEndBoxCountTextBox" Height="26" Text="{Binding EndBoxCount}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipEndPieceCountTextBox" Height="26" Text="{Binding EndPieceCount}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipCyclesPerHourTextBox" Height="26" Text="{Binding CyclesPerHour}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipScrapTextBox" Height="26" Text="{Binding Scrap}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipScrapPercentTextBox" Height="26" Text="{Binding ScrapPercent}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipGoodPartsTextBox" Height="26" Text="{Binding GoodParts}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipHoursRanTextBox" Height="26" Text="{Binding HoursRanString}" IsEnabled="False"/>
+                <TextBox x:Name="EditTimeslipIncentiveTextBox" Height="26" Text="{Binding IncentiveString}" IsEnabled="False"/>
+                <ComboBox x:Name="EditTimeslipOverrideComboBox" Text="{Binding Override}" Height="26" IsEnabled="False"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="EditButton" Grid.Column="0" Content="Edit" Click="EditButton_Click"></Button>
+                    <Button x:Name="SaveButton" Grid.Column="1" Content="Save" IsEnabled="False" Click="SaveButton_Click"></Button>
+                    <Button x:Name="CloseButton" Grid.Column="2" Content="Close" Click="CloseButton_Click"/>
+                </Grid>
             </StackPanel>
         </Grid>
     </ScrollViewer>

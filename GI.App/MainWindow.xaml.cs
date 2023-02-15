@@ -49,15 +49,22 @@ namespace GI.App
 
             OperatorTextBox.ItemsSource = Operators;
             GoggleTextBox.ItemsSource = Goggles;
+            EditGoggleTextBox.ItemsSource = Goggles;
             TimeslipListBox.ItemsSource = Timeslips;
 
         }
 
+        //Refeshes ObservableCollections
         private void RefreshLists()
         {
-            RefreshTimeslips();
             RefreshOperators();
             RefreshGoggles();
+            RefreshTimeslips();
+        }
+
+        private void EditGoggleSubmitButton_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void RefreshTimeslips()
@@ -137,8 +144,18 @@ namespace GI.App
                 newTimeslip.IncentiveAchieved = 0;
             }
 
-            UOW.Timeslips.Add(newTimeslip);
-            RefreshTimeslips();
+            if (UOW.Timeslips.Add(newTimeslip) == 1)
+            {
+                AddTimeslips_ClearAllFields();
+                RefreshTimeslips();
+                OperatorTextBox.Focus();
+                System.Windows.MessageBox.Show("Timeslip Added", "Success", MessageBoxButton.OK);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Something went wrong. Timeslip not added.", "Error", MessageBoxButton.OK);
+            }
+
 
         }
 
@@ -184,6 +201,62 @@ namespace GI.App
         {
             WatermarkTextBox txtBox = sender as WatermarkTextBox;
             txtBox.SelectAll();
+        }
+
+        private void TabItem_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            RefreshLists();
+        }
+
+        public void OnEditWindowClosed(object sender, EventArgs e)
+        {
+            RefreshTimeslips();
+        }
+        
+        private void AddTimeslips_ClearAllFields()
+        {
+            OperatorTextBox.Text = "";
+            GoggleTextBox.Text = "";
+            StartDTPicker.Text = "";
+            EndDTPicker.Text = "";
+            BeginningCounterTextBox.Clear();
+            EndingCounterTextBox.Clear();
+            BeginningBoxCount.Clear();
+            BeginningPieceCount.Clear();
+            EndingPieceCount.Clear();
+            EndingBoxCount.Clear();
+        }
+
+        private void EditGoggleSubmitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Goggle selectedGoggle = EditGoggleTextBox.SelectedItem as Goggle;
+            Goggle newGoggle = new Goggle();
+
+            newGoggle.Id = selectedGoggle.Id;
+            newGoggle.Name = selectedGoggle.Name;
+            newGoggle.QuotedCycle = int.Parse(EditGoggleQuoteTextBox.Text);
+            newGoggle.PerBox = int.Parse(EditGogglePieceTextBox.Text);
+
+            if (UOW.Goggles.Update(newGoggle) == 1)
+            {
+                EditGoggleTextBox.Text = "";
+                EditGoggleQuoteTextBox.Clear();
+                EditGogglePieceTextBox.Clear();
+                RefreshGoggles();
+                System.Windows.MessageBox.Show("Goggle Added", "Success", MessageBoxButton.OK);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Something went wrong. Goggle not added.", "Error", MessageBoxButton.OK);
+            }
+        }
+
+        private void EditGoggleTextBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Goggle heldGoggle = EditGoggleTextBox.SelectedItem as Goggle;
+
+            EditGoggleQuoteTextBox.Text = heldGoggle.QuotedCycle.ToString();
+            EditGogglePieceTextBox.Text = heldGoggle.PerBox.ToString();
         }
     }
 }

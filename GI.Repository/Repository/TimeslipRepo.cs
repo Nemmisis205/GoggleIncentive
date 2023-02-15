@@ -35,7 +35,7 @@ namespace GI.Repository.Repository
 
         public int Delete(Timeslip entity)
         {
-            var sql = @"Delete FROM Timeslips WHERE Id = @Id";
+            var sql = @"DELETE FROM Timeslips WHERE Id = @Id";
             using (var cnn = _connectionFactory.GetConnection())
             {
                 cnn.Open();
@@ -69,9 +69,9 @@ namespace GI.Repository.Repository
         public int Update(Timeslip entity)
         {
             var sql = @"UPDATE Timeslips SET OperatorId = @OperatorId, GoggleId = @GoggleId, StartTime = @StartTime, EndTime = @EndTime, StartCounter = @StartCounter, 
-                        EndCounter = @EndCounter, StartBoxCount = @StartBoxCount, EndBoxCount @EndBoxCount, StartPieceCount = @StartPieceCount, EndPieceCount @StartPieceCount,
-                        CyclesPerHour @CyclesPerHour, Scrap = @Scrap, ScrapPercent = @ScrapPercent, PieceCount = @PieceCount, CycleCount = @CycleCount, HoursRan = @HoursRan, 
-                        Efficiency = @Efficiency, IncentiveAchieved = @IncentiveAchieved, Override = @Override";
+                        EndCounter = @EndCounter, StartBoxCount = @StartBoxCount, EndBoxCount = @EndBoxCount, StartPieceCount = @StartPieceCount, EndPieceCount = @StartPieceCount,
+                        CyclesPerHour = @CyclesPerHour, Scrap = @Scrap, ScrapPercent = @ScrapPercent, GoodParts = @GoodParts, CycleCount = @CycleCount, HoursRan = @HoursRan, 
+                        Efficiency = @Efficiency, IncentiveAchieved = @IncentiveAchieved, Override = @Override WHERE Id = @Id";
             using (var cnn = _connectionFactory.GetConnection())
             {
                 cnn.Open();

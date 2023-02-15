@@ -52,7 +52,7 @@
             <TabItem Header="Add Operators">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Operator Name" HorizontalAlignment="Left" Margin="28,21,0,0" VerticalAlignment="Top"/>
-                    <xctk:WatermarkTextBox x:Name="AddOperatorTextBox" Watermark="Must be unique" HorizontalAlignment="Left" Margin="28,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="186"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="AddOperatorTextBox" Watermark="Must be unique" HorizontalAlignment="Left" Margin="28,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="186"/>
                     <Button x:Name="AddOperatorSubmitButton" Content="Add Operator" HorizontalAlignment="Left" Margin="234,52,0,0" VerticalAlignment="Top" Width="108" Click="AddOperatorSubmitButton_Click" Height="24"/>
                 </Grid>
             </TabItem>
@@ -65,13 +65,13 @@
                     <Label Content="Goggle Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                     <Label Content="Quoted Cycles per Hour" HorizontalAlignment="Left" Margin="155,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
                     <Label Content="Amount Per Box" HorizontalAlignment="Left" Margin="51,10,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-                    <xctk:WatermarkTextBox x:Name="AddGoggleNameTextBox" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" Watermark="Name" VerticalAlignment="Top" Width="120"/>
-                    <xctk:WatermarkTextBox x:Name="AddGoggleQuoteTextBox" HorizontalAlignment="Left" Margin="155,41,0,0" TextWrapping="Wrap" Watermark="Goggles Per Hour" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
-                    <xctk:WatermarkTextBox x:Name="AddGogglePieceTextBox" HorizontalAlignment="Left" Margin="51,41,0,0" TextWrapping="Wrap" Watermark="Pieces" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="AddGoggleNameTextBox" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" Watermark="Name" VerticalAlignment="Top" Width="120"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="AddGoggleQuoteTextBox" HorizontalAlignment="Left" Margin="155,41,0,0" TextWrapping="Wrap" Watermark="Goggles Per Hour" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="AddGogglePieceTextBox" HorizontalAlignment="Left" Margin="51,41,0,0" TextWrapping="Wrap" Watermark="Pieces" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
                     <Button x:Name="AddGoggleSubmitButton" Content="Add Goggle" HorizontalAlignment="Left" Margin="90,82,0,0" VerticalAlignment="Top" Height="24" Width="81" Grid.Column="1" Click="AddGoggleSubmitButton_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="View Timeslips">
+            <TabItem Header="View/Edit Timeslips">
                 <Grid Background="#FFE5E5E5">
                     <ScrollViewer>
                         <ListBox Name="TimeslipListBox">
@@ -89,6 +89,17 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Edit Goggles">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Goggle" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top"/>
+                    <ComboBox Name="EditGoggleTextBox" DisplayMemberPath="Name" Height="22" Width="120" IsEditable="True" TabIndex="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,42,0,0" SelectionChanged="EditGoggleTextBox_SelectionChanged"/>
+                    <Label Content="Quoted Cycles per Hour" HorizontalAlignment="Left" Margin="155,10,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Amount Per Box" HorizontalAlignment="Left" Margin="316,10,0,0" VerticalAlignment="Top"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EditGoggleQuoteTextBox" HorizontalAlignment="Left" Margin="155,41,0,0" TextWrapping="Wrap" Watermark="Goggles Per Hour" VerticalAlignment="Top" Width="120"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EditGogglePieceTextBox" HorizontalAlignment="Left" Margin="316,41,0,0" TextWrapping="Wrap" Watermark="Pieces" VerticalAlignment="Top" Width="120"/>
+                    <Button x:Name="EditGoggleSubmitButton" Content="Edit Goggle" HorizontalAlignment="Left" Margin="355,82,0,0" VerticalAlignment="Top" Height="24" Width="81" Click="EditGoggleSubmitButton_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>
