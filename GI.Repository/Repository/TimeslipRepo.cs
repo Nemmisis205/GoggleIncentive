@@ -79,5 +79,16 @@ namespace GI.Repository.Repository
                 return result;
             }
         }
+
+        public List<Timeslip> GetByOperator(int id)
+        {
+            var sql = "SELECT * FROM Timeslips WHERE OperatorId = @OperatorId";
+            using (var cnn = _connectionFactory.GetConnection())
+            {
+                cnn.Open();
+                var result = cnn.Query<Timeslip>(sql, new { OperatorId = id }).ToList();
+                return result;
+            }
+        }
     }
 }

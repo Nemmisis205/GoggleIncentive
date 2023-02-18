@@ -9,6 +9,6 @@ namespace GI.Repository.Interfaces
 {
     public interface ITimeslipRepo : IGenericRepository<Timeslip>
     {
-
+        List<Timeslip> GetByOperator(int id);
     }
 }

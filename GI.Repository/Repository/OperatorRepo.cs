@@ -74,7 +74,7 @@ namespace GI.Repository.Repository
 
         public Operator GetByName(string name)
         {
-            var sql = @"SELECT * FROM Operators WHERE Name LIKE ('%' + @Name + '%')";
+            var sql = @"SELECT * FROM Operators WHERE Name = @Name";
             using (var cnn = _connectionFactory.GetConnection())
             {
                 cnn.Open();

@@ -20,7 +20,7 @@ namespace GI.Repository.Repository
 
         public int Add(Goggle entity)
         {
-            var sql = @"INSERT INTO Goggles(Name, QuotedCycle, PerBox) VALUES(@Name, @QuotedCycle, @PerBox)";
+            var sql = @"INSERT INTO Goggles(Name, QuotedCycle, PerBox, BoxesPerPallet) VALUES(@Name, @QuotedCycle, @PerBox, @BoxesPerPallet)";
             using (var cnn = _connectionFactory.GetConnection())
             {
                 cnn.Open();
@@ -64,11 +64,21 @@ namespace GI.Repository.Repository
 
         public int Update(Goggle entity)
         {
-            var sql = @"UPDATE Goggles SET Name=@Name, QuotedCycle=@QuotedCycle, PerBox=@PerBox WHERE Id = @Id";
+            var sql = @"UPDATE Goggles SET Name=@Name, QuotedCycle=@QuotedCycle, PerBox=@PerBox, BoxesPerPallet=@BoxesPerPallet WHERE Id = @Id";
             using (var cnn = _connectionFactory.GetConnection())
             {
                 cnn.Open();
                 var result = cnn.Execute(sql, entity);
+                return result;
+            }
+        }
+        public Goggle GetByName(string name)
+        {
+            var sql = @"SELECT * FROM Goggles WHERE Name = @Name";
+            using (var cnn = _connectionFactory.GetConnection())
+            {
+                cnn.Open();
+                var result = cnn.QuerySingleOrDefault<Goggle>(sql, new { Name = name });
                 return result;
             }
         }

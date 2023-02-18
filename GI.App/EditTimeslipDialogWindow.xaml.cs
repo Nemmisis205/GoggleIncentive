@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GI.App.Validation;
 
 namespace GI.App
 {
@@ -113,73 +114,102 @@ namespace GI.App
         {
             oldSlip = this.DataContext as Timeslip;
             var newTimeslip = new Timeslip();
-            Operator chosenOperator = EditTimeslipOperatorComboBox.SelectedItem as Operator;
-            Goggle chosenGoggle = EditTimeslipGoggleComboBox.SelectedItem as Goggle;
-            
-            //Solves dates and times
-            if (EditTimeslipStartTimeTextBox.Text.Substring(6) == "PM" && EditTimeslipEndTimeTextBox.Text.Substring(6) == "AM")
+            var timeslipValidation = new TimeslipValidation(UOW)
             {
-                string startTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipStartTimeTextBox.Text;
-                DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime, "MM/dd/yy hh:mm tt", null);
-                newTimeslip.StartTime = startDT.ToUnixTimeSeconds();
+                Operator = EditTimeslipOperatorComboBox.Text,
+                Goggle = EditTimeslipGoggleComboBox.Text,
+                StartCounter = EditTimeslipStartCounterTextBox.Text,
+                EndCounter = EditTimeslipEndCounterTextBox.Text,
+                StartBox = EditTimeslipStartBoxCountTextBox.Text,
+                StartPiece = EditTimeslipStartPieceCountTextBox.Text,
+                EndBox = EditTimeslipEndBoxCountTextBox.Text,
+                EndPiece = EditTimeslipEndPieceCountTextBox.Text
+            };
+            if (timeslipValidation.Error == null)
+            {
 
-                string endTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipEndTimeTextBox.Text;
-                DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime, "MM/dd/yy hh:mm tt", null);
-                newTimeslip.EndTime = endDT.ToUnixTimeSeconds() + 86400;
+
+                Operator chosenOperator = EditTimeslipOperatorComboBox.SelectedItem as Operator;
+                Goggle chosenGoggle = EditTimeslipGoggleComboBox.SelectedItem as Goggle;
+
+                //Solves dates and times
+                if (EditTimeslipStartTimeTextBox.Text.Substring(6) == "PM" && EditTimeslipEndTimeTextBox.Text.Substring(6) == "AM")
+                {
+                    string startTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipStartTimeTextBox.Text;
+                    DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime, "MM/dd/yy hh:mm tt", null);
+                    newTimeslip.StartTime = startDT.ToUnixTimeSeconds();
+
+                    string endTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipEndTimeTextBox.Text;
+                    DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime, "MM/dd/yy hh:mm tt", null);
+                    newTimeslip.EndTime = endDT.ToUnixTimeSeconds() + 86400;
+                }
+                else
+                {
+                    string startTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipStartTimeTextBox.Text;
+                    DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime, "MM/dd/yy hh:mm tt", null);
+                    newTimeslip.StartTime = startDT.ToUnixTimeSeconds();
+
+                    string endTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipEndTimeTextBox.Text;
+                    DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime, "MM/dd/yy hh:mm tt", null);
+                    newTimeslip.EndTime = endDT.ToUnixTimeSeconds();
+                }
+
+                //Solves Good Goggles
+                newTimeslip.StartBoxCount = int.Parse(EditTimeslipStartBoxCountTextBox.Text);
+                newTimeslip.StartPieceCount = int.Parse(EditTimeslipStartPieceCountTextBox.Text);
+                newTimeslip.EndBoxCount = int.Parse(EditTimeslipEndBoxCountTextBox.Text);
+                newTimeslip.EndPieceCount = int.Parse(EditTimeslipEndPieceCountTextBox.Text);
+                newTimeslip.GoggleId = chosenGoggle.Id;
+                if (newTimeslip.EndBoxCount < newTimeslip.StartBoxCount)
+                {
+                    int boxPerPalletGrabber = UOW.Goggles.GetById(newTimeslip.GoggleId).BoxesPerPallet;
+                    newTimeslip.GoodParts = (((newTimeslip.EndBoxCount + boxPerPalletGrabber) * chosenGoggle.PerBox) + newTimeslip.EndPieceCount) - ((newTimeslip.StartBoxCount * chosenGoggle.PerBox) + newTimeslip.StartPieceCount);
+                }
+                else
+                {
+                    newTimeslip.GoodParts = ((newTimeslip.EndBoxCount * chosenGoggle.PerBox) + newTimeslip.EndPieceCount) - ((newTimeslip.StartBoxCount * chosenGoggle.PerBox) + newTimeslip.StartPieceCount);
+                }
+                //Solves most fields
+                newTimeslip.Id = oldSlip.Id;
+                newTimeslip.OperatorId = chosenOperator.Id;
+                newTimeslip.StartCounter = int.Parse(EditTimeslipStartCounterTextBox.Text);
+                newTimeslip.EndCounter = int.Parse(EditTimeslipEndCounterTextBox.Text);
+                newTimeslip.HoursRan = newTimeslip.EndTime - newTimeslip.StartTime;
+                newTimeslip.CycleCount = newTimeslip.EndCounter - newTimeslip.StartCounter;
+                newTimeslip.CyclesPerHour = Math.Round((double)((newTimeslip.CycleCount) / (newTimeslip.HoursRan / 3600)), 2);
+                newTimeslip.Scrap = newTimeslip.CycleCount - newTimeslip.GoodParts;
+                newTimeslip.ScrapPercent = Math.Round((double)(newTimeslip.Scrap / newTimeslip.CycleCount) * 100, 2);
+                newTimeslip.Efficiency = Math.Round((newTimeslip.CyclesPerHour / chosenGoggle.QuotedCycle) * 100, 2);
+
+
+                //Incentive Solver
+                if (EditTimeslipOverrideComboBox.Text == "Failed")
+                {
+                    newTimeslip.IncentiveAchieved = 0;
+                    newTimeslip.Override = 0;
+                }
+                else if (EditTimeslipOverrideComboBox.Text == "Earned")
+                {
+                    newTimeslip.IncentiveAchieved = 1;
+                    newTimeslip.Override = 1;
+                }
+                else if (newTimeslip.Efficiency >= 80)
+                {
+                    newTimeslip.IncentiveAchieved = 1;
+                }
+                else if (newTimeslip.Efficiency < 80)
+                {
+                    newTimeslip.IncentiveAchieved = 0;
+                }
+
+                //Update
+                UOW.Timeslips.Update(newTimeslip);
+                this.Close();
             }
             else
             {
-                string startTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipStartTimeTextBox.Text;
-                DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime, "MM/dd/yy hh:mm tt", null);
-                newTimeslip.StartTime = startDT.ToUnixTimeSeconds();
-
-                string endTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipEndTimeTextBox.Text;
-                DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime, "MM/dd/yy hh:mm tt", null);
-                newTimeslip.EndTime = endDT.ToUnixTimeSeconds();
+                MessageBox.Show(timeslipValidation.Error);
             }
-
-            //Solves most fields
-            newTimeslip.Id = oldSlip.Id;
-            newTimeslip.OperatorId = chosenOperator.Id;
-            newTimeslip.GoggleId = chosenGoggle.Id;
-            newTimeslip.StartCounter = int.Parse(EditTimeslipStartCounterTextBox.Text);
-            newTimeslip.EndCounter = int.Parse(EditTimeslipEndCounterTextBox.Text);
-            newTimeslip.StartBoxCount = int.Parse(EditTimeslipStartBoxCountTextBox.Text);
-            newTimeslip.StartPieceCount = int.Parse(EditTimeslipStartPieceCountTextBox.Text);
-            newTimeslip.EndBoxCount = int.Parse(EditTimeslipEndBoxCountTextBox.Text);
-            newTimeslip.EndPieceCount = int.Parse(EditTimeslipEndPieceCountTextBox.Text);
-            newTimeslip.HoursRan = newTimeslip.EndTime - newTimeslip.StartTime;
-            newTimeslip.CycleCount = newTimeslip.EndCounter - newTimeslip.StartCounter;
-            newTimeslip.CyclesPerHour = Math.Round((double)((newTimeslip.CycleCount) / (newTimeslip.HoursRan / 3600)), 2);
-            newTimeslip.GoodParts = ((newTimeslip.EndBoxCount * chosenGoggle.PerBox) + newTimeslip.EndPieceCount) - ((newTimeslip.StartBoxCount * chosenGoggle.PerBox) + newTimeslip.StartPieceCount);
-            newTimeslip.Scrap = newTimeslip.CycleCount - newTimeslip.GoodParts;
-            newTimeslip.ScrapPercent = Math.Round((double)(newTimeslip.Scrap / newTimeslip.CycleCount) * 100, 2);
-            newTimeslip.Efficiency = Math.Round((newTimeslip.CyclesPerHour / chosenGoggle.QuotedCycle) * 100, 2);
-
-
-            //Incentive Solver
-            if (EditTimeslipOverrideComboBox.Text == "Failed")
-            {
-                newTimeslip.IncentiveAchieved = 0;
-                newTimeslip.Override = 0;
-            }
-            else if (EditTimeslipOverrideComboBox.Text == "Earned")
-            {
-                newTimeslip.IncentiveAchieved = 1;
-                newTimeslip.Override = 1;
-            }
-            else if (newTimeslip.Efficiency >= 80)
-            {
-                newTimeslip.IncentiveAchieved = 1;
-            }
-            else if (newTimeslip.Efficiency < 80)
-            {
-                newTimeslip.IncentiveAchieved = 0;
-            }
-
-            //Update
-            UOW.Timeslips.Update(newTimeslip);
-            this.Close();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

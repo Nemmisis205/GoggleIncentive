@@ -12,17 +12,19 @@ namespace GI.Model.Models
         public string Name { get; set; }
         public int QuotedCycle { get; set; }
         public int PerBox { get; set; } = 72;
+        public int BoxesPerPallet { get; set; } = 24;
 
         public Goggle()
         {
 
         }
 
-        public Goggle(string name, int quote, int perBox)
+        public Goggle(string name, int quote, int perBox, int boxesPerPallet)
         { 
             Name = name;
             QuotedCycle = quote;
             PerBox = perBox;
+            BoxesPerPallet = boxesPerPallet;
         }
     }
 }

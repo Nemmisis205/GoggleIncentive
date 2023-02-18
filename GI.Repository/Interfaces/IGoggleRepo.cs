@@ -9,5 +9,6 @@ namespace GI.Repository.Interfaces
 {
     public interface IGoggleRepo : IGenericRepository<Goggle>
     {
+        Goggle GetByName(string name);
     }
 }

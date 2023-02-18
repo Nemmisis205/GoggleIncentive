@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xceed.Wpf.Toolkit;
+using GI.App.Validation;
 
 namespace GI.App
 {
@@ -48,6 +49,7 @@ namespace GI.App
             RefreshLists();
 
             OperatorTextBox.ItemsSource = Operators;
+            EditTimeslipOperatorSearch.ItemsSource = Operators;
             GoggleTextBox.ItemsSource = Goggles;
             EditGoggleTextBox.ItemsSource = Goggles;
             TimeslipListBox.ItemsSource = Timeslips;
@@ -60,11 +62,6 @@ namespace GI.App
             RefreshOperators();
             RefreshGoggles();
             RefreshTimeslips();
-        }
-
-        private void EditGoggleSubmitButton_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void RefreshTimeslips()
@@ -113,47 +110,65 @@ namespace GI.App
         private void TimeslipSubmitButton_Click(object sender, RoutedEventArgs e)
         {
             var newTimeslip = new Timeslip();
-            Operator chosenOperator = OperatorTextBox.SelectedItem as Operator;
-            Goggle chosenGoggle = GoggleTextBox.SelectedItem as Goggle;
-            DateTimeOffset startTimeGrabber = (DateTimeOffset)StartDTPicker.Value;
-            DateTimeOffset endTimeGrabber = (DateTimeOffset)EndDTPicker.Value;
 
-            newTimeslip.OperatorId = chosenOperator.Id;
-            newTimeslip.GoggleId = chosenGoggle.Id;
-            newTimeslip.StartTime = startTimeGrabber.ToUnixTimeSeconds();
-            newTimeslip.EndTime = endTimeGrabber.ToUnixTimeSeconds();
-            newTimeslip.StartCounter = int.Parse(BeginningCounterTextBox.Text);
-            newTimeslip.EndCounter = int.Parse(EndingCounterTextBox.Text);
-            newTimeslip.StartBoxCount = int.Parse(BeginningBoxCount.Text);
-            newTimeslip.StartPieceCount = int.Parse(BeginningPieceCount.Text);
-            newTimeslip.EndBoxCount = int.Parse(EndingBoxCount.Text);
-            newTimeslip.EndPieceCount = int.Parse(EndingPieceCount.Text);
-            newTimeslip.HoursRan = newTimeslip.EndTime - newTimeslip.StartTime;
-            newTimeslip.CycleCount = newTimeslip.EndCounter - newTimeslip.StartCounter;
-            newTimeslip.CyclesPerHour = Math.Round((double)((newTimeslip.CycleCount) / (newTimeslip.HoursRan / 3600)), 2);
-            newTimeslip.GoodParts = ((newTimeslip.EndBoxCount * chosenGoggle.PerBox) + newTimeslip.EndPieceCount) - ((newTimeslip.StartBoxCount * chosenGoggle.PerBox) + newTimeslip.StartPieceCount);
-            newTimeslip.Scrap = newTimeslip.CycleCount - newTimeslip.GoodParts;
-            newTimeslip.ScrapPercent = Math.Round((double)(newTimeslip.Scrap / newTimeslip.CycleCount) * 100, 2);
-            newTimeslip.Efficiency = Math.Round((newTimeslip.CyclesPerHour / chosenGoggle.QuotedCycle) * 100, 2);
-            if (newTimeslip.Efficiency >= 80)
+            var timeslipValidation = new TimeslipValidation(UOW)
             {
-                newTimeslip.IncentiveAchieved = 1;
+                Operator = OperatorTextBox.Text,
+                Goggle = GoggleTextBox.Text,
+                StartCounter = BeginningCounterTextBox.Text,
+                EndCounter = EndingCounterTextBox.Text,
+                StartBox = BeginningBoxCount.Text,
+                StartPiece = BeginningPieceCount.Text,
+                EndBox = EndingBoxCount.Text,
+                EndPiece = EndingPieceCount.Text
+            };
+            if (timeslipValidation.Error == null)
+            {
+                Operator chosenOperator = OperatorTextBox.SelectedItem as Operator;
+                Goggle chosenGoggle = GoggleTextBox.SelectedItem as Goggle;
+                DateTimeOffset startTimeGrabber = (DateTimeOffset)StartDTPicker.Value;
+                DateTimeOffset endTimeGrabber = (DateTimeOffset)EndDTPicker.Value;
+                newTimeslip.OperatorId = chosenOperator.Id;
+                newTimeslip.GoggleId = chosenGoggle.Id;
+                newTimeslip.StartTime = startTimeGrabber.ToUnixTimeSeconds();
+                newTimeslip.EndTime = endTimeGrabber.ToUnixTimeSeconds();
+                newTimeslip.StartCounter = int.Parse(BeginningCounterTextBox.Text);
+                newTimeslip.EndCounter = int.Parse(EndingCounterTextBox.Text);
+                newTimeslip.StartBoxCount = int.Parse(BeginningBoxCount.Text);
+                newTimeslip.StartPieceCount = int.Parse(BeginningPieceCount.Text);
+                newTimeslip.EndBoxCount = int.Parse(EndingBoxCount.Text);
+                newTimeslip.EndPieceCount = int.Parse(EndingPieceCount.Text);
+                newTimeslip.HoursRan = newTimeslip.EndTime - newTimeslip.StartTime;
+                newTimeslip.CycleCount = newTimeslip.EndCounter - newTimeslip.StartCounter;
+                newTimeslip.CyclesPerHour = Math.Round((double)((newTimeslip.CycleCount) / (newTimeslip.HoursRan / 3600)), 2);
+                newTimeslip.GoodParts = ((newTimeslip.EndBoxCount * chosenGoggle.PerBox) + newTimeslip.EndPieceCount) - ((newTimeslip.StartBoxCount * chosenGoggle.PerBox) + newTimeslip.StartPieceCount);
+                newTimeslip.Scrap = newTimeslip.CycleCount - newTimeslip.GoodParts;
+                newTimeslip.ScrapPercent = Math.Round((double)(newTimeslip.Scrap / newTimeslip.CycleCount) * 100, 2);
+                newTimeslip.Efficiency = Math.Round((newTimeslip.CyclesPerHour / chosenGoggle.QuotedCycle) * 100, 2);
+                if (newTimeslip.Efficiency >= 80)
+                {
+                    newTimeslip.IncentiveAchieved = 1;
+                }
+                else
+                {
+                    newTimeslip.IncentiveAchieved = 0;
+                }
+
+                if (UOW.Timeslips.Add(newTimeslip) == 1)
+                {
+                    AddTimeslips_ClearAllFields();
+                    RefreshTimeslips();
+                    OperatorTextBox.Focus();
+                    System.Windows.MessageBox.Show("Timeslip Added", "Success", MessageBoxButton.OK);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Something went wrong. Timeslip not added.", "Error", MessageBoxButton.OK);
+                }
             }
             else
             {
-                newTimeslip.IncentiveAchieved = 0;
-            }
-
-            if (UOW.Timeslips.Add(newTimeslip) == 1)
-            {
-                AddTimeslips_ClearAllFields();
-                RefreshTimeslips();
-                OperatorTextBox.Focus();
-                System.Windows.MessageBox.Show("Timeslip Added", "Success", MessageBoxButton.OK);
-            }
-            else
-            {
-                System.Windows.MessageBox.Show("Something went wrong. Timeslip not added.", "Error", MessageBoxButton.OK);
+                System.Windows.MessageBox.Show(timeslipValidation.Error);
             }
 
 
@@ -161,14 +176,28 @@ namespace GI.App
 
         private void AddGoggleSubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            var newGoggle = new Goggle(AddGoggleNameTextBox.Text, int.Parse(AddGoggleQuoteTextBox.Text), int.Parse(AddGogglePieceTextBox.Text));
+            var goggleValidation = new GoggleValidation(UOW)
+            {
+                Quote = AddGoggleQuoteTextBox.Text,
+                PerBox = AddGogglePieceTextBox.Text,
+                BoxesPerPallet = AddGogglePalletTextBox.Text
+            };
 
-            UOW.Goggles.Add(newGoggle);
-            RefreshGoggles();
-            GoggleTextBox.ItemsSource = Goggles;
-            AddGoggleNameTextBox.Clear();
-            AddGoggleQuoteTextBox.Clear();
-            AddGogglePieceTextBox.Clear();
+            if (goggleValidation.Error == null)
+            {
+                var newGoggle = new Goggle(AddGoggleNameTextBox.Text, int.Parse(AddGoggleQuoteTextBox.Text), int.Parse(AddGogglePieceTextBox.Text), int.Parse(AddGogglePalletTextBox.Text));
+                UOW.Goggles.Add(newGoggle);
+                RefreshGoggles();
+                GoggleTextBox.ItemsSource = Goggles;
+                AddGoggleNameTextBox.Clear();
+                AddGoggleQuoteTextBox.Clear();
+                AddGogglePieceTextBox.Clear();
+                System.Windows.MessageBox.Show("Goggle successfully added!");
+            }
+            else
+            {
+                System.Windows.MessageBox.Show(goggleValidation.Error);
+            }
         }
 
         private void AddOperatorSubmitButton_Click(Object sender, RoutedEventArgs e)
@@ -179,14 +208,9 @@ namespace GI.App
             RefreshOperators();
             OperatorTextBox.ItemsSource = Operators;
             AddOperatorTextBox.Clear();
+            System.Windows.MessageBox.Show("Operator successfully added!");
 
         }
-
-        //private void AddTimeslipConfirmation_Click(object sender, RoutedEventArgs e)
-        //{
-        //    bool valdated = false;
-
-        //}
 
         private void TimeslipView_Click(object sender, RoutedEventArgs e)
         {
@@ -229,34 +253,74 @@ namespace GI.App
 
         private void EditGoggleSubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            Goggle selectedGoggle = EditGoggleTextBox.SelectedItem as Goggle;
-            Goggle newGoggle = new Goggle();
-
-            newGoggle.Id = selectedGoggle.Id;
-            newGoggle.Name = selectedGoggle.Name;
-            newGoggle.QuotedCycle = int.Parse(EditGoggleQuoteTextBox.Text);
-            newGoggle.PerBox = int.Parse(EditGogglePieceTextBox.Text);
-
-            if (UOW.Goggles.Update(newGoggle) == 1)
+            var goggleValidation = new GoggleValidation(UOW)
             {
-                EditGoggleTextBox.Text = "";
-                EditGoggleQuoteTextBox.Clear();
-                EditGogglePieceTextBox.Clear();
-                RefreshGoggles();
-                System.Windows.MessageBox.Show("Goggle Added", "Success", MessageBoxButton.OK);
+                Quote = EditGoggleQuoteTextBox.Text,
+                PerBox = EditGogglePieceTextBox.Text,
+                BoxesPerPallet = EditGogglePalletTextBox.Text
+            };
+
+            if (goggleValidation.Error == null)
+            {
+                Goggle selectedGoggle = EditGoggleTextBox.SelectedItem as Goggle;
+                Goggle newGoggle = new Goggle();
+
+                newGoggle.Id = selectedGoggle.Id;
+                newGoggle.Name = selectedGoggle.Name;
+                newGoggle.QuotedCycle = int.Parse(EditGoggleQuoteTextBox.Text);
+                newGoggle.PerBox = int.Parse(EditGogglePieceTextBox.Text);
+                newGoggle.BoxesPerPallet = int.Parse(EditGogglePalletTextBox.Text);
+
+                if (UOW.Goggles.Update(newGoggle) == 1)
+                {
+                    RefreshGoggles();
+                    System.Windows.MessageBox.Show("Goggle Added", "Success", MessageBoxButton.OK);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Something went wrong. Goggle not changed.", "Error", MessageBoxButton.OK);
+                }
             }
             else
             {
-                System.Windows.MessageBox.Show("Something went wrong. Goggle not added.", "Error", MessageBoxButton.OK);
+                System.Windows.MessageBox.Show(goggleValidation.Error);
             }
         }
 
         private void EditGoggleTextBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Goggle heldGoggle = EditGoggleTextBox.SelectedItem as Goggle;
+            Goggle? heldGoggle = EditGoggleTextBox.SelectedItem as Goggle;
 
-            EditGoggleQuoteTextBox.Text = heldGoggle.QuotedCycle.ToString();
-            EditGogglePieceTextBox.Text = heldGoggle.PerBox.ToString();
+            EditGoggleQuoteTextBox.Text = heldGoggle?.QuotedCycle.ToString();
+            EditGogglePieceTextBox.Text = heldGoggle?.PerBox.ToString();
+            EditGogglePalletTextBox.Text = heldGoggle?.BoxesPerPallet.ToString();
+        }
+
+        private void EditTimeslipOperatorSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            Operator heldOperator = EditTimeslipOperatorSearch.SelectedItem as Operator;
+            Timeslips.Clear();
+
+            foreach (Timeslip i in new ObservableCollection<Timeslip>(UOW.Timeslips.GetByOperator(heldOperator.Id)))
+            {
+                Timeslips.Add(i);
+                i.OperatorName = UOW.Operators.GetById(i.OperatorId).Name;
+                i.GoggleName = UOW.Goggles.GetById(i.GoggleId).Name;
+                DateTimeOffset dateHold = DateTimeOffset.FromUnixTimeSeconds(i.StartTime);
+                DateTimeOffset endTimeHold = DateTimeOffset.FromUnixTimeSeconds(i.EndTime);
+                i.DateString = dateHold.ToString("MM/dd/yy");
+                i.StartTimeString = dateHold.ToString("hh:mm tt");
+                i.EndTimeString = endTimeHold.ToString("hh:mm tt");
+                i.HoursRanString = Math.Round((double)i.HoursRan / 3600, 2).ToString();
+                if (i.IncentiveAchieved == 0)
+                {
+                    i.IncentiveString = "No";
+                }
+                else if (i.IncentiveAchieved == 1)
+                {
+                    i.IncentiveString = "Yes";
+                }
+            }
         }
     }
 }

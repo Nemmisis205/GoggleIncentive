@@ -34,7 +34,8 @@ namespace GI.Repository.UOW
                                 Id              integer primary key AUTOINCREMENT,
                                 Name            text UNIQUE,
                                 QuotedCycle     integer NOT NULL,
-                                PerBox          integer NOT NULL DEFAULT 72
+                                PerBox          integer NOT NULL DEFAULT 72,
+                                BoxesPerPallet  integer DEFAULT 24
                             )"
                         );
                     cnn.Execute(

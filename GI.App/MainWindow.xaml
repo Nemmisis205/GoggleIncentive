@@ -65,15 +65,20 @@
                     <Label Content="Goggle Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                     <Label Content="Quoted Cycles per Hour" HorizontalAlignment="Left" Margin="155,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
                     <Label Content="Amount Per Box" HorizontalAlignment="Left" Margin="51,10,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Label Content="Boxes Per Pallet" Grid.Column="1" Margin="213,10,222,370"/>
                     <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="AddGoggleNameTextBox" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" Watermark="Name" VerticalAlignment="Top" Width="120"/>
                     <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="AddGoggleQuoteTextBox" HorizontalAlignment="Left" Margin="155,41,0,0" TextWrapping="Wrap" Watermark="Goggles Per Hour" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
                     <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="AddGogglePieceTextBox" HorizontalAlignment="Left" Margin="51,41,0,0" TextWrapping="Wrap" Watermark="Pieces" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-                    <Button x:Name="AddGoggleSubmitButton" Content="Add Goggle" HorizontalAlignment="Left" Margin="90,82,0,0" VerticalAlignment="Top" Height="24" Width="81" Grid.Column="1" Click="AddGoggleSubmitButton_Click"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="AddGogglePalletTextBox" HorizontalAlignment="Left" TextWrapping="Wrap" Watermark="Boxes" VerticalAlignment="Top" Width="120" Grid.Column="1" Margin="213,41,0,0"/>
+                    <Button x:Name="AddGoggleSubmitButton" Content="Add Goggle" HorizontalAlignment="Left" Margin="252,86,0,0" VerticalAlignment="Top" Height="24" Width="81" Grid.Column="1" Click="AddGoggleSubmitButton_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="View/Edit Timeslips">
                 <Grid Background="#FFE5E5E5">
-                    <ScrollViewer>
+                    <Label Content="Search By Operator" HorizontalAlignment="Left" Margin="33,8,0,0" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="EditTimeslipOperatorSearch" DisplayMemberPath="Name" VerticalAlignment="Top" Height="22" HorizontalAlignment="Left" Width="120" IsEditable="True" Margin="160,12,0,0"/>
+                    <Button x:Name="EditTimeslipOperatorSearchButton" Content="Search" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="295,12,0,0" Click="EditTimeslipOperatorSearchButton_Click"></Button>
+                    <ScrollViewer Margin="0,40,0,0">
                         <ListBox Name="TimeslipListBox">
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -99,9 +104,12 @@
                     <Label Content="Amount Per Box" HorizontalAlignment="Left" Margin="316,10,0,0" VerticalAlignment="Top"/>
                     <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EditGoggleQuoteTextBox" HorizontalAlignment="Left" Margin="155,41,0,0" TextWrapping="Wrap" Watermark="Goggles Per Hour" VerticalAlignment="Top" Width="120"/>
                     <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EditGogglePieceTextBox" HorizontalAlignment="Left" Margin="316,41,0,0" TextWrapping="Wrap" Watermark="Pieces" VerticalAlignment="Top" Width="120"/>
-                    <Button x:Name="EditGoggleSubmitButton" Content="Edit Goggle" HorizontalAlignment="Left" Margin="355,82,0,0" VerticalAlignment="Top" Height="24" Width="81" Click="EditGoggleSubmitButton_Click"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EditGogglePalletTextBox" HorizontalAlignment="Left" TextWrapping="Wrap" Watermark="Boxes" VerticalAlignment="Top" Width="120" Margin="478,41,0,0"/>
+                    <Button x:Name="EditGoggleSubmitButton" Content="Edit Goggle" HorizontalAlignment="Left" Margin="517,80,0,0" VerticalAlignment="Top" Height="24" Width="81" Click="EditGoggleSubmitButton_Click"/>
+                    <Label Content="Boxes Per Pallet" Margin="478,10,222,370"/>
                 </Grid>
             </TabItem>
+            <ComboBox Width="120"/>
         </TabControl>
     </Grid>
 </Window>
