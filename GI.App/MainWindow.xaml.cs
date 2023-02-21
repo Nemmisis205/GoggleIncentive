@@ -109,6 +109,7 @@ namespace GI.App
             }
         }
 
+        //Adds Timeslip info to database if validation is passed.
         private void TimeslipSubmitButton_Click(object sender, RoutedEventArgs e)
         {
             var newTimeslip = new Timeslip();
@@ -176,6 +177,7 @@ namespace GI.App
 
         }
 
+        //Add Goggle information to database if validation is passed.
         private void AddGoggleSubmitButton_Click(object sender, RoutedEventArgs e)
         {
             var goggleValidation = new GoggleValidation(UOW)
@@ -202,6 +204,7 @@ namespace GI.App
             }
         }
 
+        //Add Operator to database.
         private void AddOperatorSubmitButton_Click(Object sender, RoutedEventArgs e)
         {
             var newOperator = new Operator(AddOperatorTextBox.Text);
@@ -211,9 +214,9 @@ namespace GI.App
             OperatorTextBox.ItemsSource = Operators;
             AddOperatorTextBox.Clear();
             System.Windows.MessageBox.Show("Operator successfully added!");
-
         }
 
+        //Clicking Timeslip shows Edit Timeslip window.
         private void TimeslipView_Click(object sender, RoutedEventArgs e)
         {
             EditTimeslipDialogWindow dlg = new EditTimeslipDialogWindow();
@@ -223,22 +226,20 @@ namespace GI.App
             dlg.Show();
         }
 
+        //Allows you to quickly delete a textbox when you select via click or tab.
         private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             WatermarkTextBox txtBox = sender as WatermarkTextBox;
             txtBox.SelectAll();
         }
 
-        private void TabItem_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-            RefreshLists();
-        }
-
+        //When Edit window closed, refresh Timeslip list.
         public void OnEditWindowClosed(object sender, EventArgs e)
         {
             RefreshTimeslips();
         }
         
+        //When a timeslip is added, clear fields to prepare for next timeslip.
         private void AddTimeslips_ClearAllFields()
         {
             OperatorTextBox.Text = "";
@@ -253,6 +254,7 @@ namespace GI.App
             EndingBoxCount.Clear();
         }
 
+        //Edits goggle information, if validation is passed.
         private void EditGoggleSubmitButton_Click(object sender, RoutedEventArgs e)
         {
             var goggleValidation = new GoggleValidation(UOW)
@@ -289,6 +291,7 @@ namespace GI.App
             }
         }
 
+        //Populates goggle information when selected in drop down.
         private void EditGoggleTextBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Goggle? heldGoggle = EditGoggleTextBox.SelectedItem as Goggle;
@@ -298,6 +301,7 @@ namespace GI.App
             EditGogglePalletTextBox.Text = heldGoggle?.BoxesPerPallet.ToString();
         }
 
+        //Search function in Edit Timeslip tab.
         private void EditTimeslipOperatorSearchButton_Click(object sender, RoutedEventArgs e)
         {
             Operator heldOperator = EditTimeslipOperatorSearch.SelectedItem as Operator;

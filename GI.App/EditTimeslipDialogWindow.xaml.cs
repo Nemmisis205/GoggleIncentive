@@ -59,6 +59,7 @@ namespace GI.App
             ClosedEvent += ((MainWindow)Application.Current.MainWindow).OnEditWindowClosed;
         }
 
+        //Populates Operator and Goggle lists
         private void RefreshLists()
         {
             RefreshOperators();
@@ -83,6 +84,7 @@ namespace GI.App
             }
         }
 
+        //Enables Editable fields
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             oldSlip = this.DataContext as Timeslip;
@@ -110,6 +112,7 @@ namespace GI.App
 
         }
 
+        //Saves Timeslip Changes if Validation is passed.
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             oldSlip = this.DataContext as Timeslip;
