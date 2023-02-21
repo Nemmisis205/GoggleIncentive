@@ -12,7 +12,8 @@
             <TabItem Header="Add Timeslips" IsSelected="True">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="117.536"/>
+                        <ColumnDefinition Width="22.464"/>
                         <ColumnDefinition Width="140"/>
                         <ColumnDefinition Width="90"/>
                         <ColumnDefinition Width="90"/>
@@ -28,25 +29,25 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Label Content="Operator" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="26" Margin="10,0,0,0" Width="58" Grid.Column="0"/>
-                    <ComboBox x:Name="OperatorTextBox" DisplayMemberPath="Name" VerticalAlignment="Center" Height="22" HorizontalAlignment="Center" Width="120" Grid.Row="1" IsEditable="True" TabIndex="1"/>
-                    <Label Content="Start Date/Time" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,0" Width="94" Grid.Column="2" RenderTransformOrigin="0.144,0.014" Height="26" Grid.ColumnSpan="2"/>
-                    <xctk:DateTimePicker x:Name="StartDTPicker" VerticalAlignment="Center" Height="22" HorizontalAlignment="Center" Width="161" Grid.Column="2" Grid.Row="1" TimeFormat="Custom" Format="Custom" FormatString="MM/dd/yy  hh:mm tt" TimeFormatString="hh:mm tt" Grid.ColumnSpan="2" TabIndex="3" Kind="Utc"/>
-                    <Label Grid.Column="1" Content="Goggle" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Bottom" Height="26" Width="48"/>
-                    <ComboBox x:Name="GoggleTextBox" DisplayMemberPath="Name" Grid.Column="1" VerticalAlignment="Center" Height="22" HorizontalAlignment="Center" Width="120" Grid.Row="1" IsEditable="True" TabIndex="2"/>
-                    <Label Grid.Column="4" Content="End Date/Time" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Bottom" Height="26" Width="89" Grid.ColumnSpan="2"/>
-                    <xctk:DateTimePicker x:Name="EndDTPicker" VerticalAlignment="Center" Height="22" HorizontalAlignment="Left" Width="161" Grid.Column="4" Grid.Row="1" TimeFormat="Custom" Format="Custom" FormatString="MM/dd/yy  hh:mm tt" TimeFormatString="hh:mm tt" Grid.ColumnSpan="2" Margin="10,0,0,0" TabIndex="4" Kind="Utc"/>
-                    <Separator Grid.ColumnSpan="7" HorizontalAlignment="Left" Margin="70,0,0,40" Grid.Row="2" Width="665"/>
-                    <Label Content="Beginning Counter" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Bottom" Height="26" Width="109"/>
-                    <Label Grid.Column="1" Content="Ending Counter" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Bottom" Height="26" Width="93"/>
-                    <Label Grid.Column="2" Content="Beginning Box Count" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Bottom" Height="26" Width="122" Grid.ColumnSpan="2"/>
-                    <Label Grid.Column="4" Content="Ending Box Count" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Bottom" Height="26" Width="105" Grid.ColumnSpan="2"/>
-                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="BeginningCounterTextBox" Watermark="Counter" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Height="24" TabIndex="5"/>
-                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EndingCounterTextBox" Watermark="Counter" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Height="24" TabIndex="6"/>
-                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="BeginningBoxCount" Watermark="Boxes" Grid.Column="2" HorizontalAlignment="Center" Margin="0,5,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="67" Height="24" TabIndex="7"/>
-                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="BeginningPieceCount" Watermark="Pieces" Grid.Column="3" HorizontalAlignment="Center" Margin="0,5,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="72" Height="24" TabIndex="8"/>
-                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EndingBoxCount" Watermark="Boxes" Grid.Column="4" HorizontalAlignment="Left" Margin="15,5,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" Height="24" TabIndex="9"/>
-                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EndingPieceCount" Watermark="Pieces" Grid.Column="5" HorizontalAlignment="Center" Margin="0,5,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="71" Height="24" TabIndex="10"/>
-                    <Button x:Name="TimeslipSubmitButton" Grid.Column="5" Content="Submit" HorizontalAlignment="Left" Margin="15,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="66" Click="TimeslipSubmitButton_Click" TabIndex="11"/>
+                    <ComboBox x:Name="OperatorTextBox" DisplayMemberPath="Name" VerticalAlignment="Center" Height="22" HorizontalAlignment="Left" Width="120" Grid.Row="1" IsEditable="True" TabIndex="1" Grid.ColumnSpan="2" Margin="10,0,0,0"/>
+                    <Label Content="Start Date/Time" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,0" Width="94" Grid.Column="3" RenderTransformOrigin="0.144,0.014" Height="26" Grid.ColumnSpan="2"/>
+                    <xctk:DateTimePicker x:Name="StartDTPicker" VerticalAlignment="Center" Height="22" HorizontalAlignment="Left" Width="160" Grid.Column="3" Grid.Row="1" TimeFormat="Custom" Format="Custom" FormatString="MM/dd/yy  hh:mm tt" TimeFormatString="hh:mm tt" Grid.ColumnSpan="2" TabIndex="3" Kind="Utc" Margin="10,0,0,0" AllowTextInput="False"/>
+                    <Label Grid.Column="2" Content="Goggle" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Bottom" Height="26" Width="48"/>
+                    <ComboBox x:Name="GoggleTextBox" DisplayMemberPath="Name" Grid.Column="2" VerticalAlignment="Center" Height="22" HorizontalAlignment="Center" Width="120" Grid.Row="1" IsEditable="True" TabIndex="2"/>
+                    <Label Grid.Column="5" Content="End Date/Time" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Bottom" Height="26" Width="89" Grid.ColumnSpan="2"/>
+                    <xctk:DateTimePicker x:Name="EndDTPicker" VerticalAlignment="Center" Height="22" HorizontalAlignment="Left" Width="161" Grid.Column="5" Grid.Row="1" TimeFormat="Custom" Format="Custom" FormatString="MM/dd/yy  hh:mm tt" TimeFormatString="hh:mm tt" Grid.ColumnSpan="2" Margin="10,0,0,0" TabIndex="4" Kind="Utc" AllowTextInput="False"/>
+                    <Separator Grid.ColumnSpan="8" HorizontalAlignment="Left" Margin="70,0,0,40" Grid.Row="2" Width="665"/>
+                    <Label Content="Beginning Counter" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Bottom" Height="26" Width="109" Grid.ColumnSpan="2"/>
+                    <Label Grid.Column="2" Content="Ending Counter" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Bottom" Height="26" Width="93"/>
+                    <Label Grid.Column="3" Content="Beginning Box Count" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Bottom" Height="26" Width="122" Grid.ColumnSpan="2"/>
+                    <Label Grid.Column="5" Content="Ending Box Count" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Bottom" Height="26" Width="105" Grid.ColumnSpan="2"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="BeginningCounterTextBox" Watermark="Counter" HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Height="24" TabIndex="5" Grid.ColumnSpan="2" Margin="10,0,0,0"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EndingCounterTextBox" Watermark="Counter" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Height="24" TabIndex="6"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="BeginningBoxCount" Watermark="Boxes" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="66" Height="24" TabIndex="7"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="BeginningPieceCount" Watermark="Pieces" Grid.Column="4" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="72" Height="24" TabIndex="8"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EndingBoxCount" Watermark="Boxes" Grid.Column="5" HorizontalAlignment="Left" Margin="15,0,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="65" Height="24" TabIndex="9"/>
+                    <xctk:WatermarkTextBox GotKeyboardFocus="TextBox_GotKeyboardFocus" x:Name="EndingPieceCount" Watermark="Pieces" Grid.Column="6" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Height="24" TabIndex="10"/>
+                    <Button x:Name="TimeslipSubmitButton" Grid.Column="6" Content="Submit" HorizontalAlignment="Left" Margin="15,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="66" Click="TimeslipSubmitButton_Click" TabIndex="11"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Add Operators">
@@ -109,7 +110,6 @@
                     <Label Content="Boxes Per Pallet" Margin="478,10,222,370"/>
                 </Grid>
             </TabItem>
-            <ComboBox Width="120"/>
         </TabControl>
     </Grid>
 </Window>

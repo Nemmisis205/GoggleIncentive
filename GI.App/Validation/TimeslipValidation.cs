@@ -42,6 +42,10 @@ namespace GI.App.Validation
                     {
                         message = "End Counter must be a whole number.";
                     }
+                    else if (int.Parse(EndCounter) < int.Parse(StartCounter))
+                    {
+                        message = "End Counter must be higher than Start Counter";
+                    }
                 }
                 if (ColumnName == "StartBox")
                 {
@@ -86,7 +90,6 @@ namespace GI.App.Validation
                     }
                 }
 
-
                 return message;
             }
         }
@@ -126,6 +129,14 @@ namespace GI.App.Validation
                 else if (!string.IsNullOrEmpty(this["EndPiece"]))
                 {
                     return this["EndPiece"];
+                }
+                else if (!string.IsNullOrEmpty(this["StartTime"]))
+                {
+                    return this["StartTime"];
+                }
+                else if (!string.IsNullOrEmpty(this["EndTime"]))
+                {
+                    return this["EndTime"];
                 }
                 else
                 {

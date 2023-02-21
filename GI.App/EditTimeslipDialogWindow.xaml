@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GI.App"
         mc:Ignorable="d"
-        Title="EditTimeslipDialogWindow" Height="450" Width="400" Closed="Window_Closed">
+        Title="Edit Timeslip" Height="450" Width="400" Closed="Window_Closed">
     <ScrollViewer>
         <Grid VerticalAlignment="Bottom">
             <Grid.ColumnDefinitions>

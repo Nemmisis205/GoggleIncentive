@@ -136,21 +136,21 @@ namespace GI.App
                 if (EditTimeslipStartTimeTextBox.Text.Substring(6) == "PM" && EditTimeslipEndTimeTextBox.Text.Substring(6) == "AM")
                 {
                     string startTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipStartTimeTextBox.Text;
-                    DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime, "MM/dd/yy hh:mm tt", null);
+                    DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime + " -07:00" , "MM/dd/yy hh:mm tt zzz", null, System.Globalization.DateTimeStyles.AdjustToUniversal);
                     newTimeslip.StartTime = startDT.ToUnixTimeSeconds();
 
                     string endTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipEndTimeTextBox.Text;
-                    DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime, "MM/dd/yy hh:mm tt", null);
+                    DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime + " -07:00", "MM/dd/yy hh:mm tt zzz", null, System.Globalization.DateTimeStyles.AdjustToUniversal);
                     newTimeslip.EndTime = endDT.ToUnixTimeSeconds() + 86400;
                 }
                 else
                 {
                     string startTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipStartTimeTextBox.Text;
-                    DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime, "MM/dd/yy hh:mm tt", null);
+                    DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime + " -07:00", "MM/dd/yy hh:mm tt zzz", null, System.Globalization.DateTimeStyles.AdjustToUniversal);
                     newTimeslip.StartTime = startDT.ToUnixTimeSeconds();
 
                     string endTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipEndTimeTextBox.Text;
-                    DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime, "MM/dd/yy hh:mm tt", null);
+                    DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime + " -07:00", "MM/dd/yy hh:mm tt zzz", null, System.Globalization.DateTimeStyles.AdjustToUniversal);
                     newTimeslip.EndTime = endDT.ToUnixTimeSeconds();
                 }
 
@@ -169,7 +169,7 @@ namespace GI.App
                 {
                     newTimeslip.GoodParts = ((newTimeslip.EndBoxCount * chosenGoggle.PerBox) + newTimeslip.EndPieceCount) - ((newTimeslip.StartBoxCount * chosenGoggle.PerBox) + newTimeslip.StartPieceCount);
                 }
-                //Solves most fields
+                //Solves most other fields
                 newTimeslip.Id = oldSlip.Id;
                 newTimeslip.OperatorId = chosenOperator.Id;
                 newTimeslip.StartCounter = int.Parse(EditTimeslipStartCounterTextBox.Text);

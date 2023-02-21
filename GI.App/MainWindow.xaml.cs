@@ -73,7 +73,9 @@ namespace GI.App
                 i.OperatorName = UOW.Operators.GetById(i.OperatorId).Name;
                 i.GoggleName = UOW.Goggles.GetById(i.GoggleId).Name;
                 DateTimeOffset dateHold = DateTimeOffset.FromUnixTimeSeconds(i.StartTime);
+                dateHold = dateHold.ToOffset(new TimeSpan(-7, 0, 0));
                 DateTimeOffset endTimeHold = DateTimeOffset.FromUnixTimeSeconds(i.EndTime);
+                endTimeHold = endTimeHold.ToOffset(new TimeSpan(-7, 0, 0));
                 i.DateString = dateHold.ToString("MM/dd/yy");
                 i.StartTimeString = dateHold.ToString("hh:mm tt");
                 i.EndTimeString = endTimeHold.ToString("hh:mm tt");
@@ -274,7 +276,7 @@ namespace GI.App
                 if (UOW.Goggles.Update(newGoggle) == 1)
                 {
                     RefreshGoggles();
-                    System.Windows.MessageBox.Show("Goggle Added", "Success", MessageBoxButton.OK);
+                    System.Windows.MessageBox.Show("Goggle Saved!", "Success", MessageBoxButton.OK);
                 }
                 else
                 {
