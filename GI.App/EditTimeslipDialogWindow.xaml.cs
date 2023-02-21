@@ -139,21 +139,21 @@ namespace GI.App
                 if (EditTimeslipStartTimeTextBox.Text.Substring(6) == "PM" && EditTimeslipEndTimeTextBox.Text.Substring(6) == "AM")
                 {
                     string startTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipStartTimeTextBox.Text;
-                    DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime + " -07:00" , "MM/dd/yy hh:mm tt zzz", null, System.Globalization.DateTimeStyles.AdjustToUniversal);
+                    DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime + " -07:00" , "MM/dd/yy hh:mm tt zzz", null);
                     newTimeslip.StartTime = startDT.ToUnixTimeSeconds();
 
                     string endTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipEndTimeTextBox.Text;
-                    DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime + " -07:00", "MM/dd/yy hh:mm tt zzz", null, System.Globalization.DateTimeStyles.AdjustToUniversal);
+                    DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime + " -07:00", "MM/dd/yy hh:mm tt zzz", null);
                     newTimeslip.EndTime = endDT.ToUnixTimeSeconds() + 86400;
                 }
                 else
                 {
                     string startTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipStartTimeTextBox.Text;
-                    DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime + " -07:00", "MM/dd/yy hh:mm tt zzz", null, System.Globalization.DateTimeStyles.AdjustToUniversal);
+                    DateTimeOffset startDT = DateTimeOffset.ParseExact(startTime + " -07:00", "MM/dd/yy hh:mm tt zzz", null);
                     newTimeslip.StartTime = startDT.ToUnixTimeSeconds();
 
                     string endTime = EditTimeslipDateTextBox.Text + " " + EditTimeslipEndTimeTextBox.Text;
-                    DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime + " -07:00", "MM/dd/yy hh:mm tt zzz", null, System.Globalization.DateTimeStyles.AdjustToUniversal);
+                    DateTimeOffset endDT = DateTimeOffset.ParseExact(endTime + " -07:00", "MM/dd/yy hh:mm tt zzz", null);
                     newTimeslip.EndTime = endDT.ToUnixTimeSeconds();
                 }
 
@@ -181,7 +181,8 @@ namespace GI.App
                 newTimeslip.CycleCount = newTimeslip.EndCounter - newTimeslip.StartCounter;
                 newTimeslip.CyclesPerHour = Math.Round((double)((newTimeslip.CycleCount) / (newTimeslip.HoursRan / 3600)), 2);
                 newTimeslip.Scrap = newTimeslip.CycleCount - newTimeslip.GoodParts;
-                newTimeslip.ScrapPercent = Math.Round((double)(newTimeslip.Scrap / newTimeslip.CycleCount) * 100, 2);
+                double scrapHold = newTimeslip.Scrap;
+                newTimeslip.ScrapPercent = Math.Round((scrapHold / newTimeslip.CycleCount) * 100, 2);
                 newTimeslip.Efficiency = Math.Round((newTimeslip.CyclesPerHour / chosenGoggle.QuotedCycle) * 100, 2);
 
 

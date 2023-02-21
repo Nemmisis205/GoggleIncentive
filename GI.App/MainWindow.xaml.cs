@@ -133,8 +133,8 @@ namespace GI.App
                 DateTimeOffset endTimeGrabber = (DateTimeOffset)EndDTPicker.Value;
                 newTimeslip.OperatorId = chosenOperator.Id;
                 newTimeslip.GoggleId = chosenGoggle.Id;
-                newTimeslip.StartTime = startTimeGrabber.ToUnixTimeSeconds();
-                newTimeslip.EndTime = endTimeGrabber.ToUnixTimeSeconds();
+                newTimeslip.StartTime = startTimeGrabber.ToUnixTimeSeconds() - 25200;
+                newTimeslip.EndTime = endTimeGrabber.ToUnixTimeSeconds() - 25200;
                 newTimeslip.StartCounter = int.Parse(BeginningCounterTextBox.Text);
                 newTimeslip.EndCounter = int.Parse(EndingCounterTextBox.Text);
                 newTimeslip.StartBoxCount = int.Parse(BeginningBoxCount.Text);
@@ -146,7 +146,8 @@ namespace GI.App
                 newTimeslip.CyclesPerHour = Math.Round((double)((newTimeslip.CycleCount) / (newTimeslip.HoursRan / 3600)), 2);
                 newTimeslip.GoodParts = ((newTimeslip.EndBoxCount * chosenGoggle.PerBox) + newTimeslip.EndPieceCount) - ((newTimeslip.StartBoxCount * chosenGoggle.PerBox) + newTimeslip.StartPieceCount);
                 newTimeslip.Scrap = newTimeslip.CycleCount - newTimeslip.GoodParts;
-                newTimeslip.ScrapPercent = Math.Round((double)(newTimeslip.Scrap / newTimeslip.CycleCount) * 100, 2);
+                double scrapHold = newTimeslip.Scrap;
+                newTimeslip.ScrapPercent = Math.Round((scrapHold / newTimeslip.CyclesPerHour) * 100, 2);
                 newTimeslip.Efficiency = Math.Round((newTimeslip.CyclesPerHour / chosenGoggle.QuotedCycle) * 100, 2);
                 if (newTimeslip.Efficiency >= 80)
                 {
