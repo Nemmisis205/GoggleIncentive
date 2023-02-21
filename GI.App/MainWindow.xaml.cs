@@ -144,7 +144,14 @@ namespace GI.App
                 newTimeslip.HoursRan = newTimeslip.EndTime - newTimeslip.StartTime;
                 newTimeslip.CycleCount = newTimeslip.EndCounter - newTimeslip.StartCounter;
                 newTimeslip.CyclesPerHour = Math.Round((double)((newTimeslip.CycleCount) / (newTimeslip.HoursRan / 3600)), 2);
-                newTimeslip.GoodParts = ((newTimeslip.EndBoxCount * chosenGoggle.PerBox) + newTimeslip.EndPieceCount) - ((newTimeslip.StartBoxCount * chosenGoggle.PerBox) + newTimeslip.StartPieceCount);
+                if (newTimeslip.EndBoxCount < newTimeslip.StartBoxCount)
+                {
+                    newTimeslip.GoodParts = (((newTimeslip.EndBoxCount + chosenGoggle.BoxesPerPallet) * chosenGoggle.PerBox) + newTimeslip.EndPieceCount) - ((newTimeslip.StartBoxCount * chosenGoggle.PerBox) + newTimeslip.StartPieceCount);
+                }
+                else
+                {
+                    newTimeslip.GoodParts = ((newTimeslip.EndBoxCount * chosenGoggle.PerBox) + newTimeslip.EndPieceCount) - ((newTimeslip.StartBoxCount * chosenGoggle.PerBox) + newTimeslip.StartPieceCount);
+                }
                 newTimeslip.Scrap = newTimeslip.CycleCount - newTimeslip.GoodParts;
                 double scrapHold = newTimeslip.Scrap;
                 newTimeslip.ScrapPercent = Math.Round((scrapHold / newTimeslip.CyclesPerHour) * 100, 2);
