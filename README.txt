@@ -14,3 +14,5 @@ Add Goggles - Goggle name must be unique, and the other fields must be filled wi
 View/Edit Timeslips - Shows all timeslips. Search by operator filters showns timeslips. Click on a Timeslip to open the Edit screen. All fields are uneditable until "Edit" button is selected. After edit is selected, editable fields are opened. Date MUST stay in format MM/DD/YY. Time fields MUST stay in format HH:MM AM/PM. Counter and box count fields must be filled with whole numbers only. Override drop down allows you to manually select whether a timeslip earned it's incentive. After editing is finished, click Save. You may also delete an entire Timeslip by clicking Edit, then Delete.
 
 Edit Goggles - Drop down selects a goggle, then other fields automatically populate with the goggle's information. Change the fields as neede, and then click Edit Goggle to save the changes.
+
+Uses tools from the Extended WPF Toolkit located at https://github.com/xceedsoftware/wpftoolkit 
